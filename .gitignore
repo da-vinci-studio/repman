@@ -23,6 +23,7 @@
 
 ###> IDE ###
 /.vscode
+/.idea
 /.phan
 ###< IDE ###
 
