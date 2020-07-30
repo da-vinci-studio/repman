@@ -17,8 +17,6 @@ services:
     env_file: .env.docker
     volumes:
       - app-var:/app/var
-    depends_on:
-      - database
 
   consumer:
     << : *restart_policy
