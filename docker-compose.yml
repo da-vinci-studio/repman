@@ -4,6 +4,18 @@ x-restart-policy: &restart_policy
   restart: unless-stopped
 
 services:
+  database:
+    << : *restart_policy
+    image: postgres:11.7-alpine
+    logging:
+      driver: none
+    environment:
+      POSTGRES_USER: main
+      POSTGRES_PASSWORD: main
+      POSTGRES_DB: main
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   app:
     << : *restart_policy
     image: buddy/repman:0.4.1
@@ -17,6 +29,8 @@ services:
     env_file: .env.docker
     volumes:
       - app-var:/app/var
+    depends_on:
+      - database
 
   consumer:
     << : *restart_policy
@@ -56,6 +70,7 @@ services:
       - ${SSL_PRV_FILE}:/etc/ssl/private/server.key
 
 volumes:
+  postgres-data:
   app-var:
     driver: local
     driver_opts:
