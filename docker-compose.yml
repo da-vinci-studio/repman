@@ -52,8 +52,8 @@ services:
       - app-public:/app/public
       - docker-logs-nginx/:/var/log/nginx
       - docker-nginx-scripts:/nginx
-      - docker-nginx-ssl-certs:/etc/ssl/certs/server.crt
-      - docker-nginx-ssl-private:/etc/ssl/private/server.key
+      - ${SSL_CRT_FILE}:/etc/ssl/certs/server.crt
+      - ${SSL_PRV_FILE}:/etc/ssl/private/server.key
 
 volumes:
   app-var:
@@ -79,18 +79,6 @@ volumes:
     driver_opts:
       type: none
       device: $PWD/docker/nginx/scripts
-      o: bind
-  docker-nginx-ssl-certs:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${SSL_CRT_FILE}
-      o: bind
-  docker-nginx-ssl-private:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${SSL_PRV_FILE}
       o: bind
   docker-crontabs:
     driver: local
