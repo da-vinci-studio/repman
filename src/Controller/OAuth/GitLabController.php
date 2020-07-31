@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class GitLabController extends OAuthController
 {
     /**
-     * @Route("/register/gitlab", schemes={"https"}, name="register_gitlab_start", methods={"GET"})
+     * @Route("/register/gitlab", name="register_gitlab_start", methods={"GET"})
      */
     public function register(): Response
     {
@@ -29,15 +29,15 @@ final class GitLabController extends OAuthController
     }
 
     /**
-     * @Route("/auth/gitlab", name="auth_gitlab_start", schemes={"https"}, methods={"GET"})
+     * @Route("/auth/gitlab", name="auth_gitlab_start", methods={"GET"})
      */
     public function auth(): Response
     {
-        return $this->oauth->getClient('gitlab')->redirect(['read_user'], ['redirect_uri' => $this->generateUrl('login_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL)]);
+        return $this->oauth->getClient('gitlab')->redirect(['read_user'], ['redirect_uri' => str_replace('http', 'https', $this->generateUrl('login_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL))]);
     }
 
     /**
-     * @Route("/register/gitlab/check", name="register_gitlab_check", schemes={"https"}, methods={"GET"})
+     * @Route("/register/gitlab/check", name="register_gitlab_check", methods={"GET"})
      */
     public function registerCheck(Request $request): Response
     {
@@ -57,7 +57,7 @@ final class GitLabController extends OAuthController
 
     /**
      * @IsGranted("ROLE_ORGANIZATION_OWNER", subject="organization")
-     * @Route("/organization/{organization}/package/add-from-gitlab", name="fetch_gitlab_package_token", methods={"GET"}, schemes={"https"}, requirements={"organization"="%organization_pattern%"})
+     * @Route("/organization/{organization}/package/add-from-gitlab", name="fetch_gitlab_package_token", methods={"GET"}, requirements={"organization"="%organization_pattern%"})
      */
     public function packageAddFromGitLab(Organization $organization, UserQuery $userQuery): Response
     {
@@ -68,18 +68,18 @@ final class GitLabController extends OAuthController
         }
         $this->session->set('organization', $organization->alias());
 
-        return $this->oauth->getClient('gitlab')->redirect(['read_user', 'api'], ['redirect_uri' => $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL)]);
+        return $this->oauth->getClient('gitlab')->redirect(['read_user', 'api'], ['redirect_uri' => str_replace('http', 'https', $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL))]);
     }
 
     /**
-     * @Route("/user/token/gitlab/check", name="package_gitlab_check", methods={"GET"}, schemes={"https"})
+     * @Route("/user/token/gitlab/check", name="package_gitlab_check", methods={"GET"})
      */
     public function storeGitLabRepoToken(): Response
     {
         return $this->storeRepoToken(
             OAuthToken::TYPE_GITLAB,
             function (): AccessToken {
-                return $this->oauth->getClient('gitlab')->getAccessToken(['redirect_uri' => $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL)]);
+                return $this->oauth->getClient('gitlab')->getAccessToken(['redirect_uri' => str_replace('http', 'https', $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL))]);
             },
             'organization_package_new'
         );
