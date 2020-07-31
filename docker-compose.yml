@@ -29,8 +29,8 @@ services:
     env_file: .env.docker
     volumes:
       - app-var:/app/var
-      - ${SSH_KEY_PRV}:~/.ssh/id_rsa
-      - ${SSH_KEY_PUB}:~/.ssh/id_rsa.pub
+      - ${SSH_KEY_PRV}:/app/var/id_rsa
+      - ${SSH_KEY_PUB}:/app/var/id_rsa.pub
     depends_on:
       - database
 
@@ -41,8 +41,8 @@ services:
     env_file: .env.docker
     volumes:
       - app-var:/app/var
-      - ${SSH_KEY_PRV}:~/.ssh/id_rsa
-      - ${SSH_KEY_PUB}:~/.ssh/id_rsa.pub
+      - ${SSH_KEY_PRV}:/app/var/id_rsa
+      - ${SSH_KEY_PUB}:/app/var/id_rsa.pub
       -
     depends_on:
       - app
@@ -55,8 +55,8 @@ services:
     volumes:
       - app-var:/app/var
       - docker-crontabs:/var/spool/cron/crontabs
-      - ${SSH_KEY_PRV}:~/.ssh/id_rsa
-      - ${SSH_KEY_PUB}:~/.ssh/id_rsa.pub
+      - ${SSH_KEY_PRV}:/app/var/id_rsa
+      - ${SSH_KEY_PUB}:/app/var/id_rsa.pub
     depends_on:
       - app
 
