@@ -72,14 +72,14 @@ final class GitLabController extends OAuthController
     }
 
     /**
-     * @Route("/user/token/gitlab/check", name="package_gitlab_check", methods={"GET"})
+     * @Route("/user/token/gitlab/check", name="package_gitlab_check", methods={"GET"}, schemes={"https"})
      */
     public function storeGitLabRepoToken(): Response
     {
         return $this->storeRepoToken(
             OAuthToken::TYPE_GITLAB,
             function (): AccessToken {
-                return $this->oauth->getClient('gitlab')->getAccessToken(['redirect_uri' => str_replace('http', 'https', $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL))]);
+                return $this->oauth->getClient('gitlab')->getAccessToken(['redirect_uri' => $this->generateUrl('package_gitlab_check', [], UrlGeneratorInterface::ABSOLUTE_URL)]);
             },
             'organization_package_new'
         );
