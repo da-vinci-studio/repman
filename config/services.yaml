@@ -11,11 +11,12 @@ parameters:
     repo_dir: '%env(resolve:PACKAGES_DIST_DIR)%'
     domain: '%env(resolve:APP_HOST)%'
     url_scheme: '%env(resolve:APP_URL_SCHEME)%'
-    router.request_context.scheme: '%env(resolve:APP_URL_SCHEME)%'
     router.request_context.host: '%env(default:domain:APP_PUBLIC_HOST)%'
     security_advisories_db_dir: '%env(resolve:SECURITY_ADVISORIES_DB_DIR)%'
     security_advisories_db_repo: 'https://github.com/FriendsOfPHP/security-advisories.git'
     instance_id_file: '%kernel.project_dir%/var/instance-id'
+    router.request_context.scheme: 'https'
+    asset.request_context.secure: true
 
 services:
     # default configuration for services in *this* file
