@@ -39,7 +39,10 @@ services:
   consumer:
     << : *restart_policy
     image: buddy/repman:0.4.1
-    command: ['bin/console', 'messenger:consume', 'async', '--limit=500']
+    command: >
+      bash -c 'eval $$(ssh-agent -s) &&
+      ssh-add /app/var/id_rsa &&
+      bin/console messenger:consume async --limit=500'
     env_file: .env.docker
     volumes:
       - app-var:/app/var
@@ -51,7 +54,10 @@ services:
   cron:
     << : *restart_policy
     image: buddy/repman:0.4.1
-    command: ['crond', '-f', '-L', '/dev/stdout']
+    command: >
+      bash -c 'eval $$(ssh-agent -s) &&
+      ssh-add /app/var/id_rsa &&
+      crond -f -L /dev/stdout'
     env_file: .env.docker
     volumes:
       - app-var:/app/var
