@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class GitLabController extends OAuthController
 {
     /**
-     * @Route("/register/gitlab", name="register_gitlab_start", methods={"GET"})
+     * @Route("/register/gitlab", schemes={"https"}, name="register_gitlab_start", methods={"GET"})
      */
     public function register(): Response
     {
@@ -29,7 +29,7 @@ final class GitLabController extends OAuthController
     }
 
     /**
-     * @Route("/auth/gitlab", name="auth_gitlab_start", methods={"GET"})
+     * @Route("/auth/gitlab", name="auth_gitlab_start", schemes={"https"}, methods={"GET"})
      */
     public function auth(): Response
     {
@@ -37,7 +37,7 @@ final class GitLabController extends OAuthController
     }
 
     /**
-     * @Route("/register/gitlab/check", name="register_gitlab_check", methods={"GET"})
+     * @Route("/register/gitlab/check", name="register_gitlab_check", schemes={"https"}, methods={"GET"})
      */
     public function registerCheck(Request $request): Response
     {
@@ -57,7 +57,7 @@ final class GitLabController extends OAuthController
 
     /**
      * @IsGranted("ROLE_ORGANIZATION_OWNER", subject="organization")
-     * @Route("/organization/{organization}/package/add-from-gitlab", name="fetch_gitlab_package_token", methods={"GET"}, requirements={"organization"="%organization_pattern%"})
+     * @Route("/organization/{organization}/package/add-from-gitlab", name="fetch_gitlab_package_token", methods={"GET"}, schemes={"https"}, requirements={"organization"="%organization_pattern%"})
      */
     public function packageAddFromGitLab(Organization $organization, UserQuery $userQuery): Response
     {
