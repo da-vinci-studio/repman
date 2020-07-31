@@ -45,7 +45,6 @@ services:
       - app-var:/app/var
       - ${SSH_KEY_PRV}:/app/var/id_rsa
       - ${SSH_KEY_PUB}:/app/var/id_rsa.pub
-      -
     depends_on:
       - app
 
