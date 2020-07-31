@@ -4,6 +4,8 @@ use Buddy\Repman\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
+$_SERVER['HTTPS'] = 'on';
+
 require dirname(__DIR__).'/config/bootstrap.php';
 
 if ($_SERVER['APP_DEBUG']) {
