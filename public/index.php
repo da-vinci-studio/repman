@@ -5,6 +5,8 @@ use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 $_SERVER['HTTPS'] = 'on';
+$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+$_SERVER['SERVER_PROTOCOL'] = 'https';
 
 require dirname(__DIR__).'/config/bootstrap.php';
 
